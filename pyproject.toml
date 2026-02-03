@@ -1,0 +1,110 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dealbot"
+version = "1.0.0"
+description = "Amazon deal parser and WhatsApp publisher with macOS GUI"
+requires-python = ">=3.11"
+dependencies = [
+    "toga>=0.4.0",
+    "briefcase>=0.3.0",
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "requests>=2.31.0",
+    "pydantic>=2.5.0",
+    "python-dotenv>=1.0.0",
+    "jinja2>=3.1.0",
+    "pyyaml>=6.0",
+    "tenacity>=8.2.0",
+    "rich>=13.7.0",
+    "python-amazon-paapi>=5.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.7.0",
+    "types-requests>=2.31.0",
+    "types-pyyaml>=6.0.0",
+]
+
+[tool.setuptools]
+packages = ["adp"]
+
+[tool.setuptools.package-data]
+adp = ["ui/templates/*.j2"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_any_generics = true
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+strict_optional = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+addopts = "-v --tb=short"
+
+[tool.briefcase]
+project_name = "DealBot"
+bundle = "com.dealbot"
+version = "1.0.0"
+url = "https://dealbot.app"
+author = "DealBot Team"
+author_email = "hello@dealbot.app"
+
+[tool.briefcase.app.dealbot]
+formal_name = "DealBot"
+description = "Amazon Deal Publisher for WhatsApp"
+long_description = """DealBot is a powerful tool for processing Amazon deals and publishing them to WhatsApp channels with preview, duplicate detection, and smart filtering."""
+icon = "resources/icon"
+sources = ["dealbot"]
+resources = ["config.yaml", ".env"]
+startup_module = "dealbot.app"
+
+requires = [
+    "toga>=0.4.0",
+    "requests>=2.31.0",
+    "pydantic>=2.5.0",
+    "python-dotenv>=1.0.0",
+    "jinja2>=3.1.0",
+    "pyyaml>=6.0",
+    "tenacity>=8.2.0",
+    "rich>=13.7.0",
+    "python-amazon-paapi>=5.0.0",
+    "openpyxl>=3.1.0",
+]
+
+[tool.briefcase.app.dealbot.macOS]
+requires = []
+universal_build = true
+
+[tool.briefcase.app.dealbot.macOS.info]
+# Prevent multiple instances from launching
+LSMultipleInstancesProhibited = true
+
+[project.license]
+file = "LICENSE"

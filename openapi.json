@@ -1,0 +1,1734 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Scrapula API Docs",
+    "description": "",
+    "version": "0.4.3"
+  },
+  "servers": [
+    {
+      "url": "https://api.datapipeplatform.com"
+    }
+  ],
+  "x-tagGroups": [
+    {
+      "name": "By Type",
+      "tags": [
+        "Businesses & POI",
+        "Reviews & Comments",
+        "Products & Listings",
+        "Email Related",
+        "Phone Related",
+        "Domain Related",
+        "Other Services"
+      ]
+    },
+    {
+      "name": "By Brand",
+      "tags": [
+        "Amazon",
+        "Booking",
+        "Capterra",
+        "Facebook",
+        "Google",
+        "Trustpilot",
+        "ProductHunt",
+        "YouTube",
+        "Others"
+      ]
+    },
+    {
+      "name": "System",
+      "tags": [
+        "Requests",
+        "Platform UI"
+      ]
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-KEY",
+        "description": "The Scrapula API uses API keys (tokens) to authenticate requests. You can view and manage your API key on [the profile page](/profile).\n\nAuthentication to the API is performed via `X-API-KEY: ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA` header inside each request.\n\nAlternatively, you can send the API key inside URL query parameters `apiKey=ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA`. Although, this method less secure and recommended for testing purposes only.\n\nYour API keys carry various privileges, do not share them in public areas such as GitHub, client-side code, and so forth."
+      },
+      "APIKeyQueryParam": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "apiKey",
+        "description": "Alternatively, you can send the API key inside URL query parameters `apiKey=ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA`. Although, this method less secure and recommended for testing purposes only."
+      }
+    },
+    "schemas": {
+      "language": {
+        "type": "string",
+        "enum": [
+          "en",
+          "de",
+          "es",
+          "es-419",
+          "fr",
+          "hr",
+          "it",
+          "nl",
+          "pl",
+          "pt-BR",
+          "pt-PT",
+          "vi",
+          "tr",
+          "ru",
+          "ar",
+          "th",
+          "ko",
+          "zh-CN",
+          "zh-TW",
+          "ja",
+          "ach",
+          "af",
+          "ak",
+          "ig",
+          "az",
+          "ban",
+          "ceb",
+          "xx-bork",
+          "bs",
+          "br",
+          "ca",
+          "cs",
+          "sn",
+          "co",
+          "cy",
+          "da",
+          "yo",
+          "et",
+          "xx-elmer",
+          "eo",
+          "eu",
+          "ee",
+          "tl",
+          "fil",
+          "fo",
+          "fy",
+          "gaa",
+          "ga",
+          "gd",
+          "gl",
+          "gn",
+          "xx-hacker",
+          "ht",
+          "ha",
+          "haw",
+          "bem",
+          "rn",
+          "id",
+          "ia",
+          "xh",
+          "zu",
+          "is",
+          "jw",
+          "rw",
+          "sw",
+          "tlh",
+          "kg",
+          "mfe",
+          "kri",
+          "la",
+          "lv",
+          "to",
+          "lt",
+          "ln",
+          "loz",
+          "lua",
+          "lg",
+          "hu",
+          "mg",
+          "mt",
+          "mi",
+          "ms",
+          "pcm",
+          "no",
+          "nso",
+          "ny",
+          "nn",
+          "uz",
+          "oc",
+          "om",
+          "xx-pirate",
+          "ro",
+          "rm",
+          "qu",
+          "nyn",
+          "crs",
+          "sq",
+          "sk",
+          "sl",
+          "so",
+          "st",
+          "sr-ME",
+          "sr-Latn",
+          "su",
+          "fi",
+          "sv",
+          "tn",
+          "tum",
+          "tk",
+          "tw",
+          "wo",
+          "el",
+          "be",
+          "bg",
+          "ky",
+          "kk",
+          "mk",
+          "mn",
+          "sr",
+          "tt",
+          "tg",
+          "uk",
+          "ka",
+          "hy",
+          "yi",
+          "iw",
+          "ug",
+          "ur",
+          "ps",
+          "sd",
+          "fa",
+          "ckb",
+          "ti",
+          "am",
+          "ne",
+          "mr",
+          "hi",
+          "bn",
+          "pa",
+          "gu",
+          "or",
+          "ta",
+          "te",
+          "kn",
+          "ml",
+          "si",
+          "lo",
+          "my",
+          "km",
+          "chr"
+        ],
+        "default": "en"
+      },
+      "region": {
+        "type": "string",
+        "enum": [
+          "AF",
+          "AL",
+          "DZ",
+          "AS",
+          "AD",
+          "AO",
+          "AI",
+          "AG",
+          "AR",
+          "AM",
+          "AU",
+          "AT",
+          "AZ",
+          "BS",
+          "BH",
+          "BD",
+          "BY",
+          "BE",
+          "BZ",
+          "BJ",
+          "BT",
+          "BO",
+          "BA",
+          "BW",
+          "BR",
+          "VG",
+          "BN",
+          "BG",
+          "BF",
+          "BI",
+          "KH",
+          "CM",
+          "CA",
+          "CV",
+          "CF",
+          "TD",
+          "CL",
+          "CN",
+          "CO",
+          "CG",
+          "CD",
+          "CK",
+          "CR",
+          "CI",
+          "HR",
+          "CU",
+          "CY",
+          "CZ",
+          "DK",
+          "DJ",
+          "DM",
+          "DO",
+          "EC",
+          "EG",
+          "SV",
+          "EE",
+          "ET",
+          "FJ",
+          "FI",
+          "FR",
+          "GA",
+          "GM",
+          "GE",
+          "DE",
+          "GH",
+          "GI",
+          "GR",
+          "GL",
+          "GT",
+          "GG",
+          "GY",
+          "HT",
+          "HN",
+          "HK",
+          "HU",
+          "IS",
+          "IN",
+          "ID",
+          "IQ",
+          "IE",
+          "IM",
+          "IL",
+          "IT",
+          "JM",
+          "JP",
+          "JE",
+          "JO",
+          "KZ",
+          "KE",
+          "KI",
+          "KW",
+          "KG",
+          "LA",
+          "LV",
+          "LB",
+          "LS",
+          "LY",
+          "LI",
+          "LT",
+          "LU",
+          "MG",
+          "MW",
+          "MY",
+          "MV",
+          "ML",
+          "MT",
+          "MU",
+          "MX",
+          "FM",
+          "MD",
+          "MN",
+          "ME",
+          "MS",
+          "MA",
+          "MQ",
+          "MZ",
+          "MM",
+          "NA",
+          "NR",
+          "NP",
+          "NL",
+          "NZ",
+          "NI",
+          "NE",
+          "NG",
+          "NU",
+          "MK",
+          "NO",
+          "OM",
+          "PK",
+          "PS",
+          "PA",
+          "PG",
+          "PY",
+          "PE",
+          "PH",
+          "PN",
+          "PL",
+          "PT",
+          "PR",
+          "QA",
+          "RO",
+          "RU",
+          "RW",
+          "WS",
+          "SM",
+          "ST",
+          "SA",
+          "SN",
+          "RS",
+          "SC",
+          "SL",
+          "SG",
+          "SK",
+          "SI",
+          "SB",
+          "SO",
+          "ZA",
+          "KR",
+          "ES",
+          "LK",
+          "SH",
+          "VC",
+          "SR",
+          "SE",
+          "CH",
+          "TW",
+          "TJ",
+          "TZ",
+          "TH",
+          "TL",
+          "TG",
+          "TO",
+          "TT",
+          "TN",
+          "TR",
+          "TM",
+          "VI",
+          "UG",
+          "UA",
+          "AE",
+          "GB",
+          "US",
+          "UY",
+          "UZ",
+          "VU",
+          "VE",
+          "VN",
+          "ZM",
+          "ZW"
+        ]
+      },
+      "parameters": {
+        "async": {
+          "in": "query",
+          "name": "async",
+          "required": false,
+          "description": "The parameter defines the way you want to submit your task to Scrapula. It can be set to `false` to open an HTTP connection and keep it open until you got your results, or `true` (default) to just submit your requests to Scrapula and retrieve them later (usually within 1-3 minutes) with the [Request Results](#tag/Requests/paths/~1requests~1{requestId}/get) endpoint. Each response is available for `2` hours after a request has been completed.\n\nA good practice is to send async requests and start checking the results after the estimated execution time.\n\nAs most of the requests take some time to be executed the `async=true` option is preferred to avoid HTTP requests timeouts.",
+          "schema": {
+            "type": "boolean",
+            "default": "true"
+          }
+        },
+        "ui": {
+          "in": "query",
+          "name": "ui",
+          "required": false,
+          "description": "The parameter defines whether a task will be executed as a UI task. This is commonly used when you want to create a regular platform task with API.\n\nUsing this parameter overwrites the `async` parameter to `true`.",
+          "schema": {
+            "type": "boolean",
+            "default": "false"
+          }
+        },
+        "format": {
+          "in": "query",
+          "name": "format",
+          "required": false,
+          "description": "The parameter defines the format of the output data. Using this parameter overwrites the `ui` parameter to `true`.",
+          "schema": {
+            "type": "array",
+            "collectionFormat": "csv",
+            "items": {
+              "type": "string",
+              "default": "xlsx",
+              "enum": [
+                "xlsx",
+                "csv",
+                "json",
+                "parquet"
+              ]
+            }
+          }
+        },
+        "webhook": {
+          "in": "query",
+          "name": "webhook",
+          "required": false,
+          "description": "The parameter defines the URL address (callback) to which Scrapula will create a POST request with a JSON body once a task/request is finished.\n\nUsing this parameter overwrites the webhook from integrations.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        "fields": {
+          "in": "query",
+          "name": "fields",
+          "required": false,
+          "description": "The parameter defines which fields you want to include with each item returned in the response. By default, it returns all fields. Use `&fields=query,name` to return only the specific ones.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        "enrichments": {
+          "in": "query",
+          "name": "enrichment",
+          "required": false,
+          "description": "The parameter defines an enrichment or enrichments (e.g., `enrichment=enrichment1&enrichment=enrichment2&enrichment=enrichment3`) you want to apply to the results.\n\nAvailable values:\n\n `contacts_n_leads` — **Contacts & Leads Enrichment**: finds emails, social links, phones, and other contacts from websites;\n\n `emails_validator_service` — **Email Address Verifier**: validates emails, checks deliverability, filters out blacklists, spam traps, and complainers, while significantly reducing your bounce rate;\n\n `company_websites_finder` - **Company Website Finder**: finds company websites based on business names;\n\n `disposable_email_checker` — **Disposable Emails Checker**: checks origins of email addresses (disposable, free, or corporate);\n\n `company_insights_service` — **Company Insights**: finds company details such as revenue, size, founding year, public status, etc;\n\n `phones_enricher_service` — **Phone Numbers Enricher**: returns phones carrier data (name/type), validates phones, ensures messages deliverability, \n\n `trustpilot_service` — **Trustpilot Scraper**: returns data from a list of businesses, \n\n `whitepages_phones` - **Phone Identity Finder**: returns insights about phone number owners (name, address, etc.);\n\n `ai_chain_info` - **Chain Info**: identifies if a business is part of a chain, adding a true/false indication to your data for smarter targeting. \n\nUsing enrichments increases the time of the response. You might want to use the `async=true` parameter to avoid getting timeouts.",
+          "schema": {
+            "type": "array",
+            "collectionFormat": "csv",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "preferredContacts": {
+          "in": "query",
+          "name": "preferredContacts",
+          "description": "Preferred contacts. It supports multiple categories (e.g., `preferredContacts=technical&preferredContacts=influencers`).",
+          "schema": {
+            "type": "array",
+            "collectionFormat": "csv",
+            "items": {
+              "type": "string",
+              "enum": [
+                "decision makers",
+                "influencers",
+                "procurement/purchasing",
+                "technical",
+                "finance",
+                "operations",
+                "marketing",
+                "sales",
+                "maintenance",
+                "human resources",
+                "legal and compliance",
+                "supply chain/logistics",
+                "education/training"
+              ]
+            }
+          }
+        },
+        "contactsPerCompany": {
+          "in": "query",
+          "name": "contactsPerCompany",
+          "description": "The parameter specifies the number of Contacts per one company.",
+          "schema": {
+            "type": "integer",
+            "default": 3
+          }
+        },
+        "emailsPerContact": {
+          "in": "query",
+          "name": "emailsPerContact",
+          "description": "The parameter specifies the number of email addresses per one contact.",
+          "schema": {
+            "type": "integer",
+            "default": 1
+          }
+        },
+        "generalEmails": {
+          "in": "query",
+          "name": "generalEmails",
+          "description": "The parameter specifies whether to include only general email (info@, support@, etc.) or only not general email (paul@, john@, etc.).",
+          "schema": {
+            "type": "boolean",
+            "default": null
+          }
+        },
+        "language": {
+          "in": "query",
+          "name": "language",
+          "required": false,
+          "description": "The parameter specifies the language to use for website.",
+          "schema": {
+            "$ref": "#/components/schemas/language"
+          }
+        },
+        "region": {
+          "in": "query",
+          "name": "region",
+          "required": false,
+          "description": "The parameter specifies the country to use for website. It's recommended to use it for a better search experience.",
+          "schema": {
+            "$ref": "#/components/schemas/region"
+          }
+        },
+        "coordinates": {
+          "in": "query",
+          "name": "coordinates",
+          "required": false,
+          "description": "The parameter defines the coordinates of the location where you want your query to be applied.\n\nIt has to be constructed in the next sequence: `@` + `latitude` + `,` + `longitude` + `,` + `zoom` (`@41.3954381,2.1628662,15.1z`).\nOften, you can find this value while visiting [Google Maps](https://www.google.com/maps/search/restaurants,+Manhattan,+New+York,+NY,+USA/@40.7510123,-73.9803871,13.68z).",
+          "schema": {
+            "type": "string"
+          }
+        },
+        "coordinates_v2": {
+          "in": "query",
+          "name": "coordinates",
+          "required": false,
+          "description": "The parameter defines the coordinates of the location where you want your query to be applied.\n\nIt has to be constructed in the next sequence: `latitude` + `,` + `longitude` (`41.3954381,2.1628662`).\nOften, you can find this value while visiting [Google Maps](https://www.google.com/maps/search/restaurants,+Manhattan,+New+York,+NY,+USA/@40.7510123,-73.9803871,13.68z).",
+          "schema": {
+            "type": "string"
+          }
+        },
+        "google_maps_query": {
+          "in": "query",
+          "name": "query",
+          "required": true,
+          "description": "The parameter defines the query you want to search. You can use anything that you would use on a regular Google Maps site. Additionally, you can use `google_id` (feature_id), `place_id`, `CID` or urls to Google Maps places. The example of valid queries: `Real estate agency, Rome, Italy`, `The NoMad Restaurant, NY, USA`, `restaurants, Brooklyn 11203`, `0x886916e8bc273979:0x5141fcb11460b226`, `ChIJu7bMNFV-54gR-lrHScvPRX4`, `https://www.google.com/maps/search/restaurants+near+New+York,+NY`, etc.\n\nIt supports batching by sending arrays with up to `250` queries (e.g., `query=text1&query=text2&query=text3`). It allows multiple queries to be sent in one request and save on network latency time. \n\nYou might want to check out [the web application](/googleMaps) to play with locations and categories that we would suggest.",
+          "schema": {
+            "type": "array",
+            "collectionFormat": "csv",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "google_maps_query_v2": {
+          "in": "query",
+          "name": "query",
+          "required": true,
+          "description": "The parameter defines the query you want to search. You can use anything that you would use on a regular Google Maps site. Additionally, you can use `google_id` (feature_id), `place_id`, or `CID`. The example of valid queries: `Real estate agency, Rome, Italy`, `The NoMad Restaurant, NY, USA`, `restaurants, Brooklyn 11203`, `0x886916e8bc273979:0x5141fcb11460b226`, `ChIJrZhup4lZwokRUr_5sLoFlDw`, etc.\n\nIt supports batching by sending arrays with up to `250` queries (e.g., `query=text1&query=text2&query=text3`). It allows multiple queries to be sent in one request and save on network latency time.\n\nYou might want to check out [the web application](/googleMaps) to play with locations and categories that we would suggest.",
+          "schema": {
+            "type": "array",
+            "collectionFormat": "csv",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "pages_per_query": {
+          "in": "query",
+          "name": "pagesPerQuery",
+          "required": false,
+          "description": "The parameter specifies the limit of pages to return from one query.",
+          "schema": {
+            "type": "integer",
+            "default": 1
+          }
+        },
+        "items_per_query": {
+          "in": "query",
+          "name": "perQuery",
+          "required": false,
+          "description": "The parameter specifies the limit of items to return from one query.",
+          "schema": {
+            "type": "integer",
+            "default": 100
+          }
+        },
+        "google_search_query": {
+          "in": "query",
+          "name": "query",
+          "required": true,
+          "description": "Queries to search on Google (e.g., `bitcoin`, `37th president of usa`). \n\nIt supports batching by sending arrays with up to `250` queries (e.g., `query=text1&query=text2&query=text3`). It allows multiple queries to be sent in one request and to save on network latency time.",
+          "schema": {
+            "type": "array",
+            "collectionFormat": "csv",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "google_search_uule": {
+          "in": "query",
+          "name": "uule",
+          "required": false,
+          "description": "Google UULE parameter is used to encode a place or an exact location (with latitude and longitude) into a code. By using it you can see a Google result page like someone located at the specified location.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        "google_search_tbs": {
+          "in": "query",
+          "name": "tbs",
+          "required": false,
+          "description": "The parameter specifies the date range of the results (`h` - past hour, `d` - past 24 hours, `w` - past week, `m` - past month, 'y' - past year).",
+          "schema": {
+            "type": "string",
+            "enum": [
+              "h",
+              "d",
+              "w",
+              "m",
+              "y"
+            ]
+          }
+        },
+        "cutoff": {
+          "in": "query",
+          "name": "cutoff",
+          "required": false,
+          "description": "The parameter specifies the oldest timestamp value for items. \n\nUsing the `cutoff` parameter overwrites `sort` parameter`. Therefore, the latest records will be at the beginning (newest first).",
+          "schema": {
+            "type": "integer"
+          }
+        },
+        "skip": {
+          "in": "query",
+          "name": "skip",
+          "required": false,
+          "description": "The parameter specifies the number of items to skip. It's commonly used in pagination.",
+          "schema": {
+            "type": "integer",
+            "default": 0
+          }
+        },
+        "last_pagination_id": {
+          "in": "query",
+          "name": "lastPaginationId",
+          "required": false,
+          "description": "The parameter specifies the review_pagination_id of the last item. It's commonly used in pagination.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        "maps_limit": {
+          "in": "query",
+          "name": "limit",
+          "required": false,
+          "description": "The parameter specifies the limit of organizations to take from one query search.\n\nThere are no more than 500 places per one query search on Google Maps. For densely populated areas you might want to split your query into subqueries in order to get all the places inside. (e.g., `restaurants, Brooklyn 11211`, `restaurants, Brooklyn 11215`).",
+          "schema": {
+            "type": "integer",
+            "default": 500
+          }
+        },
+        "maps_total_limit": {
+          "in": "query",
+          "name": "totalLimit",
+          "required": false,
+          "description": "The parameter specifies the total limit of organizations to take from many queries. Usefull when using `dropDuplicates` parameter. It allows you to limit the total amount of organizations returned from all queries inside one request.",
+          "schema": {
+            "type": "integer"
+          }
+        },
+        "maps_drop_duplicates": {
+          "in": "query",
+          "name": "dropDuplicates",
+          "required": false,
+          "description": "The parameter specifies whether the bot will drop the same organizations from different queries. It makes sense when you use batching and send multiple queries inside one request.\n\nUsing the parameter combines results from each query inside one big array (`{'data': [...]}` instead of `{'data': [[...], [...], [...]]}`).\n\nIf the amount of ignored rows are less than 5,000% of what was actually extracted, you won't be billed for ignored records.",
+          "schema": {
+            "type": "boolean",
+            "default": "false"
+          }
+        },
+        "maps_reviews_reviews_limit": {
+          "in": "query",
+          "name": "reviewsLimit",
+          "required": false,
+          "description": "The parameter specifies the limit of reviews to get from one place (0 = unlimited).",
+          "schema": {
+            "type": "integer",
+            "default": 100
+          }
+        },
+        "maps_reviews_limit": {
+          "in": "query",
+          "name": "limit",
+          "required": false,
+          "description": "The parameter specifies the limit of places to take from one query search.",
+          "schema": {
+            "type": "integer",
+            "default": 1
+          }
+        },
+        "maps_reviews_sort": {
+          "in": "query",
+          "name": "sort",
+          "required": false,
+          "description": "The parameter specifies one of the sorting types.",
+          "schema": {
+            "type": "string",
+            "enum": [
+              "most_relevant",
+              "newest",
+              "highest_rating",
+              "lowest_rating"
+            ],
+            "default": "most_relevant"
+          }
+        },
+        "amazon_domain": {
+          "in": "query",
+          "name": "domain",
+          "required": false,
+          "description": "The parameter specifies Amazon domain to use.",
+          "schema": {
+            "type": "string",
+            "enum": [
+              "amazon.com",
+              "amazon.co.uk",
+              "amazon.ca",
+              "amazon.de",
+              "amazon.es",
+              "amazon.fr",
+              "amazon.it",
+              "amazon.in",
+              "amazon.nl",
+              "amazon.se",
+              "amazon.sa",
+              "amazon.com.mx",
+              "amazon.com.br",
+              "amazon.com.au",
+              "amazon.co.jp",
+              "amazon.pl",
+              "amazon.ae"
+            ],
+            "default": "amazon.com"
+          }
+        },
+        "maps_reviews_query": {
+          "in": "query",
+          "name": "reviewsQuery",
+          "required": false,
+          "description": "The parameter specifies the query to search among the reviews (e.g. `wow`, `amazing | great`).",
+          "schema": {
+            "type": "string"
+          }
+        },
+        "maps_reviews_start": {
+          "in": "query",
+          "name": "start",
+          "required": false,
+          "description": "The parameter specifies the start timestamp value for reviews (newest review). The current timestamp is used when the value is not provided.\n\nUsing the `start` parameter overwrites the `sort` parameter to `newest`. Therefore, the latest reviews will be at the beginning.",
+          "schema": {
+            "type": "integer"
+          }
+        },
+        "maps_reviews_cutoff": {
+          "in": "query",
+          "name": "cutoff",
+          "required": false,
+          "description": "The parameter specifies the oldest timestamp value for reviews (oldest review). \n\nUsing the `cutoff` parameter overwrites `sort` parameter to `newest`. Therefore, the latest reviews will be at the beginning.",
+          "schema": {
+            "type": "integer"
+          }
+        },
+        "maps_reviews_cutoff_rating": {
+          "in": "query",
+          "name": "cutoffRating",
+          "required": false,
+          "description": "The parameter specifies the maximum for `lowest_rating` sorting or the minimum for `highest_rating` sorting rating for reviews.\n\nUsing the `cutoffRating` requires sorting to be set to `lowest_rating` or `highest_rating`.",
+          "schema": {
+            "type": "integer"
+          }
+        },
+        "maps_reviews_cutoff_ignore_empty": {
+          "in": "query",
+          "name": "ignoreEmpty",
+          "required": false,
+          "description": "The parameter specifies whether to ignore reviews without text or not.",
+          "schema": {
+            "type": "boolean",
+            "default": "false"
+          }
+        },
+        "reviews_limit": {
+          "in": "query",
+          "name": "limit",
+          "required": false,
+          "description": "The parameter specifies the limit of reviews to get from one query.",
+          "schema": {
+            "type": "integer",
+            "default": 100
+          }
+        },
+        "cursor": {
+          "in": "query",
+          "name": "cursor",
+          "required": false,
+          "description": "The parameter specifies the next page cursor (`next_page_cursor`) from the previous chunk of records (usually `10`). It's commonly used in pagination.",
+          "schema": {
+            "type": "string"
+          }
+        },
+        "limit": {
+          "in": "query",
+          "name": "limit",
+          "required": false,
+          "description": "The parameter specifies the limit of items to get from one query.",
+          "schema": {
+            "type": "integer",
+            "default": 100
+          }
+        }
+      },
+      "responses": {
+        "202": {
+          "description": "The response contains a request ID that can be used to fetch results by using [Request Results](#tag/Requests/paths/~1requests~1{requestId}/get) endpoint. Each response is available for `2` hours after a request has been completed.",
+          "content": {
+            "application/json": {
+              "example": {
+                "id": "your-request-id",
+                "status": "Pending",
+                "results_location": "https://api.datapipeplatform.com/requests/your-request-id"
+              }
+            }
+          }
+        },
+        "204": {
+          "description": "The request was finished with failure and has no results.",
+          "content": {
+            "application/json": {
+              "example": {
+                "id": "your-request-id",
+                "status": "Failure"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Wrong or missing API Key (token).",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": true,
+                "errorMessage": "401 Unauthorized: The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."
+              }
+            }
+          }
+        },
+        "402": {
+          "description": "Past due invoices or a payment method not connected.",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": true,
+                "errorMessage": "Please close past due invoices or verify your card information is correct."
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "Wrong query url parameters.",
+          "content": {
+            "application/json": {
+              "example": {
+                "error": true,
+                "errorMessage": "422 Unprocessable Entity: The request was well-formed but was unable to be followed due to semantic errors."
+              }
+            }
+          }
+        }
+      },
+      "results": {
+        "description": {
+          "common": "The response contains the `status` of the request and `data`. Data is an array where each element represents a response for a single query from the request."
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/requests/{requestId}": {
+      "get": {
+        "summary": "Request Results",
+        "description": "Allows you to fetch responses from requests created with async API endpoints. You can fetch responses before the expiration time by request ID, or use webhooks to get the data once it's ready.\n\nRequest status can be Pending, Success, or Failure. Each response is available for `2` hours after a request has been completed. Once the response is expired the status will be `Pending` again.",
+        "tags": [
+          "Requests"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "requestId",
+            "required": true,
+            "description": "Request ID provided by API endpoints at `[\"id\"]`. Example: `32692d16-725c-4e66-b013-95e80e873b7e`",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "flat",
+            "required": false,
+            "description": "The parameter allows you to return flat results. All the results from queries will be combined in one array.",
+            "schema": {
+              "type": "boolean",
+              "default": "false"
+            }
+          },
+          {
+            "in": "query",
+            "name": "convertFileResult",
+            "required": false,
+            "description": "The parameter allows you to return only the link to the file result (`&convertFileResult=false`) without converting it to a JSON array.\n\nWorks only for UI tasks where results are stored in files.",
+            "schema": {
+              "type": "boolean",
+              "default": "true"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The response contains the `status` of the request and `data` in case the request is finished.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "$ref": "#/components/schemas/results/google_maps"
+                }
+              }
+            }
+          },
+          "204": {
+            "$ref": "#/components/schemas/responses/204"
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl -X GET \"https://api.datapipeplatform.com/requests/your-request-id\""
+          },
+          {
+            "lang": "Python",
+            "source": "from Scrapula import ApiClient\n\napi_client = ApiClient(api_key='ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA')\nresults = api_client.get_request_archive('your-request-id')"
+          },
+          {
+            "lang": "PHP",
+            "source": "$client = new ScrapulaClient('ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA');\n$results = $client->get_request_archive('your-request-id');"
+          },
+          {
+            "lang": "Node.js",
+            "source": "const Scrapula = require('scrapula');\n\nlet client = new Scrapula('ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA');\nclient.getRequestArchive('your-request-id').then(response => {\n   console.log(response);\n});"
+          },
+          {
+            "lang": "Go",
+            "source": "import \"github.com/scrapula/scrapula-go\"\n\nclient := scrapula.Client{ApiKey: \"SECRET_API_KEY\"}\nresults, _ := client.GetRequestArchive('your-request-id')"
+          },
+          {
+            "lang": "Java",
+            "source": "ScrapulaClient client = new ScrapulaClient(\"SECRET_API_KEY\");\nJSONArray results = client.getRequestArchive(\"your-request-id\");"
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Terminate Request",
+        "description": "Allows you to terminate created requests.",
+        "tags": [
+          "Requests"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "requestId",
+            "required": true,
+            "description": "Request ID provided by API endpoints at `[\"id\"]`. Example: `32692d16-725c-4e66-b013-95e80e873b7e`",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request terminated.",
+            "content": {
+              "application/json": {
+                "example": "Request 17dd74fc-242b-4fdc-b518-009502768cf3 terminated"
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/schemas/responses/401"
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl -X DELETE \"https://api.datapipeplatform.com/requests/your-request-id\""
+          }
+        ]
+      }
+    },
+    "/requests": {
+      "get": {
+        "summary": "Requests History",
+        "description": "Fetch up to `100` latest requests during the last `24` hours.",
+        "tags": [
+          "Requests"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "type",
+            "required": false,
+            "description": "The parameter allows you to filter requests by type (running/finished).",
+            "schema": {
+              "type": "string",
+              "default": "running"
+            }
+          },
+          {
+            "$ref": "#/components/schemas/parameters/skip"
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "description": "The parameter specifies the number of requests to return.",
+            "schema": {
+              "type": "integer",
+              "default": 25
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your latest request.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": "79e6d350-c6c9-449c-a890-7fe14f821ebe",
+                    "usage": "3"
+                  },
+                  {
+                    "id": "15188338-029a-4d0c-afdd-318e8808d8fe",
+                    "usage": "10"
+                  },
+                  {
+                    "id": "fd96b82c-6b37-49f0-b69f-b5c793d28284",
+                    "usage": "12"
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/schemas/responses/401"
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl -X GET \"https://api.datapipeplatform.com/requests?type=finished\" -H  \"X-API-KEY: ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA\""
+          },
+          {
+            "lang": "Python",
+            "source": "from scrapula import ApiClient\n\napi_client = ApiClient(api_key='ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA')\nresults = api_client.get_requests_history('finished')"
+          },
+          {
+            "lang": "Node.js",
+            "source": "const Scrapula = require('scrapula');\n\nlet client = new Scrapula('ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA');\nclient.getRequestsHistory('finished').then(response => {\n   console.log(response);\n});"
+          }
+        ]
+      }
+    },
+    "/tasks": {
+      "get": {
+        "summary": "Get Tasks",
+        "description": "Fetch user tasks.",
+        "tags": [
+          "Platform UI"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "required": false,
+            "description": "The parameter specifies the tag to search among the tasks.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lastId",
+            "required": false,
+            "description": "The parameter specifies the last task ID. It's commonly used in pagination.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "description": "The parameter specifies the number of items to return.",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User tasks.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "tasks": [
+                    {
+                      "metadata": {
+                        "service_name": "google_maps_service_v2",
+                        "queries": [
+                          "bars ny usa",
+                          "restaurants ny usa"
+                        ]
+                      },
+                      "updated": "2022-02-08T20:51:17.402668",
+                      "user_id": "YOUR_USER_ID",
+                      "status": "SUCCESS",
+                      "created": "2022-02-08T20:49:06.879078",
+                      "queue_task_id": "2b9aa187-281a-4d4e-a4c6-fbe941aaac34",
+                      "results": [
+                        {
+                          "product_name": "Google Maps Data",
+                          "file_url": "LINK_TO_RESULTS",
+                          "quantity": 509
+                        },
+                        {
+                          "product_name": "Domains",
+                          "quantity": 509
+                        }
+                      ],
+                      "id": "YOUR_TASK_ID"
+                    }
+                  ],
+                  "has_more": true
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/schemas/responses/401"
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl -X GET \"https://api.datapipeplatform.com/tasks\" -H  \"X-API-KEY: ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA\""
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create Task",
+        "description": "Allows you to create UI tasks.",
+        "tags": [
+          "Platform UI"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "service_name": {
+                    "type": "string",
+                    "description": "ID of the service you want to use (e.g., `google_maps_service_v2`, `google_maps_reviews_service_v3`)."
+                  },
+                  "queries": {
+                    "type": "array",
+                    "collectionFormat": "csv",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Queries to search for (e.g., `restaurants ny usa`, `bars ny usa`)."
+                  },
+                  "enrichments": {
+                    "type": "array",
+                    "collectionFormat": "csv",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "The parameter defines an enrichment or enrichments (e.g., `enrichment=enrichment1&enrichment=enrichment2&enrichment=enrichment3`) you want to apply to the results.\n\nAvailable values: `domains_service`, `emails_validator_service`, `disposable_email_checker`, `whatsapp_checker`, `imessage_checker`, `phones_enricher_service`, `trustpilot_service`, `company_insights_service`, etc.\n\nUse `&enrichment=domains_service&enrichment=emails_validator_service` to enrich data with Emails & Contacts Scraper (domains_service), and Email Address Verifier (emails_validator_service).\n\nIt increases the time of the response."
+                  },
+                  "tags": {
+                    "type": "array",
+                    "collectionFormat": "csv",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "service_name": "google_maps_service_v2",
+                  "queries": [],
+                  "enrich": false,
+                  "settings": {
+                    "output_extension": "xlsx",
+                    "output_columns": []
+                  },
+                  "tags": [
+                    "restaurant +1"
+                  ],
+                  "enrichments": [
+                    "domains_service",
+                    "company_insights_service"
+                  ],
+                  "categories": [
+                    "restaurant",
+                    "dentist"
+                  ],
+                  "locations": [
+                    "SE>Stockholm"
+                  ],
+                  "language": "en",
+                  "region": "SE",
+                  "limit": 0,
+                  "organizationsPerQueryLimit": 500,
+                  "filters": [],
+                  "exactMatch": false,
+                  "useZipCodes": true,
+                  "dropDuplicates": true,
+                  "dropEmailDuplicates": false,
+                  "ignoreWithoutEmails": false,
+                  "UISettings": {
+                    "isCustomQueries": false,
+                    "isCustomCategories": false,
+                    "isCustomLocations": false
+                  },
+                  "enrichLocations": true
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Task created.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "your-task-id"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/schemas/responses/401"
+          }
+        }
+      }
+    },
+    "/tasks-validate": {
+      "post": {
+        "summary": "Validate Task",
+        "description": "Allows you to validate and estimate UI tasks.",
+        "tags": [
+          "Platform UI"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "service_name": {
+                    "type": "string",
+                    "description": "ID of the service you want to use (e.g., `google_maps_service_v2`, `google_maps_reviews_service_v3`)."
+                  },
+                  "queries": {
+                    "type": "array",
+                    "collectionFormat": "csv",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Queries to search for (e.g., `restaurants ny usa`, `bars ny usa`)."
+                  },
+                  "enrichments": {
+                    "type": "array",
+                    "collectionFormat": "csv",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "The parameter defines an enrichment or enrichments (e.g., `enrichment=enrichment1&enrichment=enrichment2&enrichment=enrichment3`) you want to apply to the results.\n\nAvailable values: `domains_service`, `emails_validator_service`, `disposable_email_checker`, `whatsapp_checker`, `imessage_checker`, `phones_enricher_service`, `trustpilot_service`, `company_insights_service`, etc.\n\nUse `&enrichment=domains_service&enrichment=emails_validator_service` to enrich data with Emails & Contacts Scraper (domains_service), and Email Address Verifier (emails_validator_service).\n\nIt increases the time of the response."
+                  },
+                  "tags": {
+                    "type": "array",
+                    "collectionFormat": "csv",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "service_name": "google_maps_service_v2",
+                  "queries": [],
+                  "enrich": false,
+                  "settings": {
+                    "output_extension": "xlsx",
+                    "output_columns": []
+                  },
+                  "tags": [
+                    "restaurant +1"
+                  ],
+                  "enrichments": [
+                    "domains_service",
+                    "company_insights_service"
+                  ],
+                  "categories": [
+                    "restaurant",
+                    "dentist"
+                  ],
+                  "locations": [
+                    "SE>Stockholm"
+                  ],
+                  "language": "en",
+                  "region": "SE",
+                  "limit": 0,
+                  "organizationsPerQueryLimit": 500,
+                  "filters": [],
+                  "exactMatch": false,
+                  "useZipCodes": true,
+                  "dropDuplicates": true,
+                  "dropEmailDuplicates": false,
+                  "ignoreWithoutEmails": false,
+                  "UISettings": {
+                    "isCustomQueries": false,
+                    "isCustomCategories": false,
+                    "isCustomLocations": false
+                  },
+                  "enrichLocations": true
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Task validation status.",
+            "content": {
+              "application/json": {
+                "example": {}
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/schemas/responses/401"
+          }
+        }
+      }
+    },
+    "/tasks/{taskId}": {
+      "get": {
+        "summary": "Get Task",
+        "description": "Fetch user task.",
+        "tags": [
+          "Platform UI"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "description": "Task ID. Example: `20211211132758c8e9`",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User task.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "metadata": {
+                    "service_name": "google_maps_service_v2",
+                    "queries": [
+                      "bars ny usa",
+                      "restaurants ny usa"
+                    ]
+                  },
+                  "updated": "2022-02-08T20:51:17.402668",
+                  "user_id": "YOUR_USER_ID",
+                  "status": "SUCCESS",
+                  "created": "2022-02-08T20:49:06.879078",
+                  "queue_task_id": "2b9aa187-281a-4d4e-a4c6-fbe941aaac34",
+                  "results": [
+                    {
+                      "product_name": "Google Maps Data",
+                      "file_url": "LINK_TO_RESULTS",
+                      "quantity": 509
+                    },
+                    {
+                      "product_name": "Domains",
+                      "quantity": 509
+                    }
+                  ],
+                  "id": "YOUR_TASK_ID"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/schemas/responses/401"
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl -X GET \"https://api.datapipeplatform.com/tasks/YOUR_TASK_ID\" -H  \"X-API-KEY: ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA\""
+          }
+        ]
+      },
+      "put": {
+        "summary": "Restart Task",
+        "description": "Allows you to recreate tasks.",
+        "tags": [
+          "Platform UI"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "description": "Task ID. Example: `20211211132758c8e9`",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task restarted.",
+            "content": {
+              "application/json": {
+                "example": "Task restarted"
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/schemas/responses/401"
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl -X PUT \"https://api.datapipeplatform.com/tasks/your-task-id\""
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Terminate Task",
+        "description": "Allows you to terminate created tasks.",
+        "tags": [
+          "Platform UI"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "description": "Task ID. Example: `20211211132758c8e9`",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task removed.",
+            "content": {
+              "application/json": {
+                "example": "Task removed"
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/schemas/responses/401"
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl -X DELETE \"https://api.datapipeplatform.com/tasks/your-task-id\""
+          }
+        ]
+      }
+    },
+    "/profile/balance": {
+      "get": {
+        "summary": "Get Balance",
+        "description": "Fetch user balance information.",
+        "tags": [
+          "Platform UI"
+        ],
+        "responses": {
+          "200": {
+            "description": "Profile Balance.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "balance": 1905.01,
+                  "account_status": "valid",
+                  "upcoming_invoice": {
+                    "amount_due": 0,
+                    "applied_balance": 0,
+                    "total": 0,
+                    "subtotal": 0,
+                    "currency": "usd",
+                    "total_discount": 0,
+                    "period_start": 1654784241,
+                    "period_end": 1657376241,
+                    "collection_method": "charge_automatically",
+                    "products_lines": [
+                      {
+                        "product_name": "Google Maps Data",
+                        "unit": "place",
+                        "quantity": 382,
+                        "amount": 0,
+                        "lines": [
+                          {
+                            "quantity": 382,
+                            "amount": 0,
+                            "currency": "usd",
+                            "unit_price": "$0.00"
+                          }
+                        ]
+                      },
+                      {
+                        "product_name": "Domains",
+                        "unit": "domain",
+                        "quantity": 316,
+                        "amount": 0,
+                        "lines": [
+                          {
+                            "quantity": 316,
+                            "amount": 0,
+                            "currency": "usd",
+                            "unit_price": "$0.00"
+                          }
+                        ]
+                      }
+                    ],
+                    "subscription_id": "sub_ID"
+                  },
+                  "coupon": {},
+                  "id": "cus_ID"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/schemas/responses/401"
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl -X GET \"https://api.datapipeplatform.com/profile/balance\" -H  \"X-API-KEY: ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA\""
+          }
+        ]
+      }
+    },
+    "/invoices": {
+      "get": {
+        "summary": "Get Invoices",
+        "description": "Fetch user invoices.",
+        "tags": [
+          "Platform UI"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lastId",
+            "required": false,
+            "description": "Last invoice ID. It's commonly used in pagination.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User invoices.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "items": [],
+                  "has_more": false
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/schemas/responses/401"
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl -X GET \"https://api.datapipeplatform.com/invoices\" -H  \"X-API-KEY: ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA\""
+          }
+        ]
+      }
+    },
+    "/webhook-calls": {
+      "get": {
+        "summary": "Failed Webhook Calls",
+        "description": "Fetch the latest 100 failed webhook calls during the last 24 hours",
+        "tags": [
+          "Platform UI"
+        ],
+        "responses": {
+          "200": {
+            "description": "Failed Webhooks.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "status": "Status code: 404",
+                    "date": 1722949581
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/schemas/responses/401"
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl -X GET \"https://api.datapipeplatform.com/webhook-calls\" -H  \"X-API-KEY: ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA\""
+          }
+        ]
+      }
+    },
+    "/locations": {
+      "get": {
+        "summary": "Get Country Locations",
+        "description": "Fetch country locations that you can use to search on Google Maps.",
+        "tags": [
+          "Platform UI"
+        ],
+        "responses": {
+          "200": {
+            "description": "Country Locations.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "items": [
+                    {
+                      "title": "Abruzzi",
+                      "value": "IT>Abruzzi",
+                      "children": []
+                    }
+                  ],
+                  "supports_zip_codes": true
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/schemas/responses/401"
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl -X GET \"https://api.datapipeplatform.com/locations?country=IT\" -H  \"X-API-KEY: ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA\""
+          }
+        ]
+      }
+    }
+  }
+}

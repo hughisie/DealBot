@@ -1,0 +1,42 @@
+default_source_dir: "/Users/m4owen/Library/CloudStorage/GoogleDrive-gunn0r@gmail.com/Shared drives/01.Player Clothing Team Drive/02. RetroShell/13. Articles and Data/09. Feed Finder/amazon_deals"
+
+price_adjustment:
+  # FinalPrice = ValidatedPrice * multiplier + additive
+  multiplier: 1.00
+  additive: 0.00
+
+affiliates:
+  ensure_tag: true
+  tag_param: "tag"
+
+whatsapp:
+  recipients:
+    channel: "120363423087007307@newsletter"  # Your WhatsApp Channel ✅
+    group: "120363269876975950@g.us"          # Your WhatsApp Group (backup)
+    status: "447740359454@s.whatsapp.net"     # Personal number for status updates
+  send_to_group: false  # false = channel, true = group
+
+shortlinks:
+  provider: "cloudflare"  # "bitly" | "cloudflare"
+  domain: "amzon.fyi"
+
+ratings:
+  enabled: true
+  provider: "keepa"  # "keepa" | "rainforest" | "serpapi"
+
+interstitial:
+  enabled: false  # Disabled - links go directly to Amazon
+  countdown_seconds: 2
+
+price_validation:
+  discrepancy_threshold: 0.15  # 15% difference triggers warning
+
+scrapula:
+  enabled: true  # Enable Scrapula for product images and enrichment
+  service_name: "amazon_products_service_v2"
+  max_wait_seconds: 180  # Wait up to 3 minutes for results (batch jobs can be slow)
+  marketplace: "es"  # Default marketplace (es, us, uk, etc.)
+
+ai_validation:
+  enabled: true  # Enable AI validation and product reviews
+  model: "deepseek-chat"  # DeepSeek model for validation and reviews

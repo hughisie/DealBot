@@ -1,0 +1,54 @@
+============================================================================
+🚨 IMMEDIATE ACTION REQUIRED
+============================================================================
+
+Your PA-API credentials are PERFECT but getting 403 Forbidden because:
+
+THE TRACKING IDs ARE NOT LINKED TO YOUR ACCESS KEY!
+
+============================================================================
+DO THIS RIGHT NOW:
+============================================================================
+
+1. Go to: https://affiliate-program.amazon.com/home
+
+2. Click: "Product Advertising API" or "Manage Your Credentials"
+
+3. Find your Access Key: AKPA0DQU0S1763063154
+
+4. Look for a button like:
+   - "Manage Tracking IDs"
+   - "Edit"
+   - "Link Tracking IDs"
+   
+5. SELECT/CHECK these tracking IDs:
+   ☑️ amazoneschollos-20
+   ☑️ retroshell00-20
+
+6. Click SAVE or UPDATE
+
+7. Test immediately:
+   cd "/Users/m4owen/01. Apps/07. Windsurf/03. Claude/DealBot"
+   ./venv/bin/python3 test_both_tracking_ids.py
+
+============================================================================
+ALTERNATIVE: Wait 15 minutes (if just created)
+============================================================================
+
+If you created these credentials less than 15 minutes ago, run:
+   ./wait_and_retry.sh
+
+This will auto-test every minute until PA-API activates.
+
+============================================================================
+SCREENSHOT REQUEST
+============================================================================
+
+If still not working, take a screenshot showing:
+1. Your PA-API credentials page
+2. Any "Manage" or "Edit" buttons next to the Access Key
+3. The tracking ID linkage/selection screen
+
+This will tell us exactly what's missing!
+
+============================================================================

@@ -1,0 +1,58 @@
+====================================================================
+SCRAPULA API - What We Need
+====================================================================
+
+Your Scrapula API key is configured:
+ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA
+
+TO COMPLETE INTEGRATION, WE NEED:
+====================================================================
+
+1. LOGIN TO SCRAPULA
+   → https://datapipeplatform.cloud
+   → Find "API Documentation" or "Docs" section
+
+2. FIND THESE 4 THINGS IN THE DOCS:
+   
+   a) API Endpoint URL
+      Example: https://api.scrapula.com/v1/scrape
+      
+   b) Authentication Format
+      Example: Authorization: Bearer API_KEY
+      
+   c) Request Format
+      Example: POST {"url": "https://www.amazon.es/dp/ASIN"}
+      
+   d) Response Format
+      Example: {"title": "...", "price": 63.14, "image": "..."}
+
+3. PROVIDE THE INFORMATION
+   → Copy-paste example request from docs
+   → Copy-paste example response from docs
+   → I'll update the code immediately
+
+====================================================================
+ALTERNATIVE: TEST IT YOURSELF
+====================================================================
+
+If you find the correct format, test it:
+
+curl "https://CORRECT_ENDPOINT" \
+  -H "Authorization: Bearer ZHAjMDk0ZmQ3NGVhNDQ3NDA3MmI3ZThiMWEwM2U1MzgwNmF8YjhkZWZkOTFmZA" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://www.amazon.es/dp/B06XGWGGD8"}'
+
+If it returns JSON with product data, share the output!
+
+====================================================================
+ONCE WE HAVE IT:
+====================================================================
+
+→ Update scrapula.py with correct format (5 mins)
+→ Test with your products (5 mins)  
+→ Integrate into DealBot (10 mins)
+→ Rebuild app (5 mins)
+
+TOTAL TIME: ~25 minutes to have Scrapula working!
+
+====================================================================

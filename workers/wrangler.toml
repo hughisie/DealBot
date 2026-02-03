@@ -1,0 +1,16 @@
+name = "dealbot-shortlinks"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+account_id = "8f83dab724f07651bfc534dd1cea1c93"
+
+[[kv_namespaces]]
+binding = "LINKS"
+id = "5e4ba23c1b6940bebd36eacafe4cde44"
+
+# Custom domain route
+[[routes]]
+pattern = "amzon.fyi/*"
+zone_name = "amzon.fyi"
+
+[vars]
+ENVIRONMENT = "production"

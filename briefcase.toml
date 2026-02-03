@@ -1,0 +1,33 @@
+[tool.briefcase]
+project_name = "DealBot"
+bundle = "com.dealbot"
+version = "1.0.0"
+url = "https://dealbot.app"
+license = "MIT"
+author = "DealBot Team"
+author_email = "gunn0r@gmail.com"
+
+[tool.briefcase.app.dealbot]
+formal_name = "DealBot"
+description = "Amazon deal parser and WhatsApp publisher"
+long_description = """Amazon deal validation, price adjustment, and WhatsApp publishing tool with macOS native GUI."""
+icon = "resources/icon"
+sources = ["adp"]
+requires = [
+    "toga>=0.4.0",
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "requests>=2.31.0",
+    "pydantic>=2.5.0",
+    "python-dotenv>=1.0.0",
+    "jinja2>=3.1.0",
+    "pyyaml>=6.0",
+    "tenacity>=8.2.0",
+    "rich>=13.7.0",
+    "python-amazon-paapi>=5.1.0",
+]
+
+[tool.briefcase.app.dealbot.macOS]
+requires = [
+    "toga-cocoa>=0.4.0",
+]

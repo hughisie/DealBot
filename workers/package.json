@@ -1,0 +1,13 @@
+{
+  "name": "dealbot-shortlinks",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker for DealBot short links",
+  "main": "src/index.js",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
+  },
+  "keywords": ["cloudflare", "workers", "shortlinks"],
+  "author": "DealBot Team",
+  "license": "MIT"
+}

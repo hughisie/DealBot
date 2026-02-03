@@ -1,0 +1,68 @@
+# Cloud Run service configuration
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: dealbot-daemon
+  labels:
+    cloud.googleapis.com/location: europe-west1
+spec:
+  template:
+    metadata:
+      annotations:
+        # Allow up to 60 minutes for deal processing
+        run.googleapis.com/execution-environment: gen2
+    spec:
+      # Use smallest instance for free tier
+      containerConcurrency: 1
+      timeoutSeconds: 3600
+      containers:
+      - image: gcr.io/PROJECT_ID/dealbot-daemon:latest
+        env:
+        # Environment variables (set via gcloud or Secret Manager)
+        - name: WHAPI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: whapi-api-key
+              key: latest
+        - name: AMAZON_PAAPI_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: amazon-paapi-access-key
+              key: latest
+        - name: AMAZON_PAAPI_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: amazon-paapi-secret-key
+              key: latest
+        - name: AMAZON_ASSOCIATE_TAG
+          valueFrom:
+            secretKeyRef:
+              name: amazon-associate-tag
+              key: latest
+        - name: SCRAPULA_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: scrapula-api-key
+              key: latest
+        - name: GOOGLE_DRIVE_CREDENTIALS
+          value: "/secrets/gdrive/credentials.json"
+        - name: GOOGLE_DRIVE_FOLDER_ID
+          valueFrom:
+            secretKeyRef:
+              name: gdrive-folder-id
+              key: latest
+        resources:
+          limits:
+            cpu: '1'
+            memory: 512Mi
+        volumeMounts:
+        - name: gdrive-credentials
+          mountPath: /secrets/gdrive
+          readOnly: true
+      volumes:
+      - name: gdrive-credentials
+        secret:
+          secretName: gdrive-credentials
+          items:
+          - key: credentials.json
+            path: credentials.json

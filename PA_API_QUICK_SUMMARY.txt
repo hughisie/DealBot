@@ -1,0 +1,58 @@
+===========================================
+HOW TO GET PA-API WORKING - QUICK GUIDE
+===========================================
+
+CURRENT STATUS:
+❌ PA-API returning "403 Forbidden" 
+✅ DealBot working with TXT file prices (fallback)
+
+WHY IT'S NOT WORKING:
+→ PA-API access not approved for your Amazon Associates account
+→ Requires separate application (not automatic with Associates)
+
+HOW TO FIX:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 1: Apply for PA-API Access
+  → Go to: https://affiliate-program.amazon.es/assoc_credentials/home
+  → Navigate to "Product Advertising API"
+  → Submit application
+  → Wait 1-3 business days for approval
+
+STEP 2: Create PA-API Credentials (after approval)
+  → Go to Associates Central
+  → Generate Access Key + Secret Key
+  → Link to associate tag: retroshell00-20
+
+STEP 3: Update DealBot
+  → Update .env file with new credentials
+  → Rebuild app: ./rebuild_app.sh
+  → Test: ./venv/bin/python3 test_api_detailed.py
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+REQUIREMENTS FOR PA-API:
+✓ Active Amazon Associates account
+✓ At least 3 qualifying sales (in some regions)
+✓ Approved website/application
+✓ Separate PA-API approval
+
+TESTED CREDENTIALS:
+  Access Key: AKPAQ1JMQD1763062287
+  Secret Key: TTBu... (hidden)
+  Result: ❌ 403 Forbidden (not approved)
+
+WHAT WORKS NOW:
+✅ Prices from TXT files
+✅ Affiliate tag: retroshell00-20
+✅ Publishing to WhatsApp
+⚠️  Status: "Price Check" (fallback mode)
+
+DETAILED GUIDE:
+→ See: HOW_TO_ENABLE_PAAPI.md
+
+NEED HELP?
+→ Amazon Associates Support: associates-es@amazon.es
+→ Provide: Associate tag (retroshell00-20) + "403 Forbidden" error
+
+===========================================
