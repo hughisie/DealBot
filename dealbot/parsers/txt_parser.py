@@ -103,8 +103,8 @@ class TxtParser:
         if price_lines:
             # Search for price in the price-specific line
             price_line = price_lines[0]
-            # Look for pattern like "€0.01" or "11.99"
-            price_pattern = re.compile(r'[€£$]\s*(\d+[.,]\d{1,2})|(\d+[.,]\d{1,2})\s*[€£$]')
+            # Look for pattern like "€0.01", "11.99", or "€105" (with or without decimals)
+            price_pattern = re.compile(r'[€£$]\s*(\d+(?:[.,]\d{1,2})?)|(\d+(?:[.,]\d{1,2})?)\s*[€£$]')
             price_match = price_pattern.search(price_line)
             if price_match:
                 # Get whichever group matched
@@ -149,6 +149,13 @@ class TxtParser:
                     stated_price = float(price_str)
                 except ValueError:
                     logger.warning(f"Failed to parse price: {price_str}")
+
+        # Calculate PVP from stated price and discount if we have both but no explicit PVP
+        if stated_price and source_discount_pct and not source_pvp:
+            # PVP = stated_price / (1 - discount/100)
+            # Example: If price is €80 with 20% discount, PVP = 80 / (1 - 0.20) = €100
+            source_pvp = round(stated_price / (1 - source_discount_pct / 100), 2)
+            logger.info(f"Calculated source PVP from price and discount: €{source_pvp}")
 
         # Determine currency from symbols or context
         currency = Currency.EUR  # Default

@@ -181,19 +181,40 @@ class PlaywrightScraper:
         list_price = None
         discount_pct = None
 
-        # Current price
-        price_el = await page.query_selector(".a-price .a-offscreen")
-        if price_el:
-            text = await price_el.text_content()
-            current_price = self._parse_price(text)
+        # Current price - try multiple selectors
+        current_price_selectors = [
+            ".a-price .a-offscreen",
+            "#priceblock_ourprice",
+            "#priceblock_dealprice",
+            ".a-price-whole",
+            "#corePrice_feature_div .a-offscreen",
+        ]
+
+        for selector in current_price_selectors:
+            price_el = await page.query_selector(selector)
+            if price_el:
+                text = await price_el.text_content()
+                current_price = self._parse_price(text)
+                if current_price:
+                    logger.debug(f"Found current price €{current_price} using selector: {selector}")
+                    break
 
         # List price (PVP) - try multiple selectors
-        for selector in [".basisPrice .a-offscreen", ".a-text-price .a-offscreen"]:
+        list_price_selectors = [
+            ".basisPrice .a-offscreen",
+            ".a-text-price .a-offscreen",
+            "#priceblock_saleprice",
+            ".a-price.a-text-price .a-offscreen",
+            "[data-a-strike='true'] .a-offscreen",
+        ]
+
+        for selector in list_price_selectors:
             list_el = await page.query_selector(selector)
             if list_el:
                 text = await list_el.text_content()
                 list_price = self._parse_price(text)
                 if list_price:
+                    logger.debug(f"Found list price €{list_price} using selector: {selector}")
                     break
 
         # Discount percentage
@@ -207,6 +228,17 @@ class PlaywrightScraper:
         # Calculate discount if we have both prices but no explicit discount
         if not discount_pct and current_price and list_price and list_price > current_price:
             discount_pct = round(((list_price - current_price) / list_price) * 100, 0)
+
+        # Log what we found
+        if current_price:
+            logger.debug(f"✅ Extracted current price: €{current_price}")
+        else:
+            logger.warning(f"❌ Could not extract current price")
+
+        if list_price:
+            logger.debug(f"✅ Extracted list price: €{list_price}")
+        else:
+            logger.debug(f"ℹ️  No list price found (not always available)")
 
         return current_price, list_price, discount_pct
 
