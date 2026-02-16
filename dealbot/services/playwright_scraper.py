@@ -196,7 +196,7 @@ class PlaywrightScraper:
                 text = await price_el.text_content()
                 current_price = self._parse_price(text)
                 if current_price:
-                    logger.debug(f"Found current price €{current_price} using selector: {selector}")
+                    logger.info(f"✅ Playwright found current price €{current_price} using: {selector}")
                     break
 
         # List price (PVP) - try multiple selectors
@@ -214,7 +214,7 @@ class PlaywrightScraper:
                 text = await list_el.text_content()
                 list_price = self._parse_price(text)
                 if list_price:
-                    logger.debug(f"Found list price €{list_price} using selector: {selector}")
+                    logger.info(f"✅ Playwright found PVP €{list_price} using: {selector}")
                     break
 
         # Discount percentage
@@ -231,14 +231,14 @@ class PlaywrightScraper:
 
         # Log what we found
         if current_price:
-            logger.debug(f"✅ Extracted current price: €{current_price}")
+            logger.info(f"✅ Playwright extracted current price: €{current_price}")
         else:
-            logger.warning(f"❌ Could not extract current price")
+            logger.warning(f"❌ Playwright could not extract current price")
 
         if list_price:
-            logger.debug(f"✅ Extracted list price: €{list_price}")
+            logger.info(f"✅ Playwright extracted PVP/list price: €{list_price}")
         else:
-            logger.debug(f"ℹ️  No list price found (not always available)")
+            logger.info(f"ℹ️  Playwright: No PVP/list price found (may not be on sale)")
 
         return current_price, list_price, discount_pct
 
