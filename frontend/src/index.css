@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-primary: #5048e5;
+  --color-background-light: #f6f6f8;
+  --color-background-dark: #121121;
+
+  /* Typography */
+  --font-display: "Inter", sans-serif;
+
+  /* Border Radius */
+  --radius: 0.25rem;
+  /* rounded */
+  --radius-lg: 0.5rem;
+  /* rounded-lg */
+  --radius-xl: 0.75rem;
+  /* rounded-xl */
+  --radius-full: 9999px;
+  /* rounded-full */
+}
+
+/* Enable class-based dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@utility no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+@layer base {
+  body {
+    @apply font-display text-slate-900 dark:text-slate-100;
+    min-height: max(884px, 100dvh);
+  }
+}
