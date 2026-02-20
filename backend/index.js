@@ -1149,12 +1149,53 @@ ${xPostsHtml}
         .bulk-btn:disabled { background: #aaa; cursor: default; }
         .bulk-btn.done { background: #128C7E; }
         .instructions { background: #f0fff4; border-radius: 8px; padding: 20px; margin-top: 20px; }
+        .config-panel { background: #fff8e1; border: 1px solid #ffe082; border-radius: 10px; padding: 16px 20px; margin-bottom: 20px; }
+        .config-panel summary { font-weight: bold; font-size: 14px; color: #5d4037; cursor: pointer; user-select: none; }
+        .config-panel summary::-webkit-details-marker { color: #f9a825; }
+        .config-field { display: flex; gap: 8px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
+        .config-field label { font-size: 12px; font-weight: bold; color: #5d4037; min-width: 80px; }
+        .config-input { flex: 1; min-width: 180px; padding: 6px 10px; border: 1px solid #ffe082; border-radius: 4px; font-size: 13px; font-family: monospace; }
+        .config-jid-row { display: flex; gap: 6px; align-items: center; margin-top: 6px; }
+        .config-jid-row input { padding: 5px 8px; border: 1px solid #ffe082; border-radius: 4px; font-size: 12px; font-family: monospace; }
+        .config-jid-row input.jid-label-in { width: 110px; }
+        .config-jid-row input.jid-val-in { flex: 1; }
+        .config-btn { background: #f9a825; color: white; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; white-space: nowrap; }
+        .config-btn.del { background: #e53935; }
+        .config-btn.apply { background: #25D366; margin-top: 10px; padding: 8px 20px; font-size: 13px; }
+        .jid-list { margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+        .jid-item { display: flex; gap: 6px; align-items: center; font-size: 12px; background: #fffde7; border: 1px solid #ffe082; border-radius: 4px; padding: 4px 8px; }
+        .jid-item span { flex: 1; font-family: monospace; }
+        .no-channels-warning { background: #fff3e0; border: 1px solid #ffb74d; border-radius: 6px; padding: 10px 14px; font-size: 13px; color: #e65100; margin-bottom: 12px; display: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>💬 WhatsApp Posts - ${count} Articles</h1>
         <p><strong>Format:</strong> One sentence + URL</p>
+
+        <div class="no-channels-warning" id="no-channels-warning">
+            ⚠️ <strong>No channels configured.</strong> Expand <em>⚙️ Configure Channels</em> below to add your WhAPI token and channels before sending.
+        </div>
+
+        <details class="config-panel" id="config-panel">
+            <summary>⚙️ Configure Channels &amp; Token</summary>
+            <div class="config-field">
+                <label>WhAPI Token</label>
+                <input class="config-input" id="cfg-token" type="password" placeholder="Paste your WhAPI token here" />
+            </div>
+            <div style="margin-top:12px;font-size:12px;font-weight:bold;color:#5d4037;">Channels / Groups</div>
+            <div class="jid-list" id="cfg-jid-list"></div>
+            <div class="config-jid-row" style="margin-top:8px;">
+                <input class="jid-label-in" id="cfg-new-label" placeholder="Label (e.g. BCN Group)" />
+                <input class="jid-val-in" id="cfg-new-jid" placeholder="JID (e.g. 120363...@g.us or ...@newsletter)" />
+                <button class="config-btn" onclick="cfgAddJid()">+ Add</button>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="config-btn apply" onclick="cfgApply()">✓ Apply &amp; Rebuild Buttons</button>
+                <button class="config-btn apply" style="background:#075E54;" onclick="cfgSave()">💾 Save for this session</button>
+            </div>
+        </details>
+
         <div id="posts">
 ${waPostsHtml}
         </div>
@@ -1268,13 +1309,76 @@ ${waPostsHtml}
                 });
             }
 
-            window.addEventListener('DOMContentLoaded', function() {
-                if (!jids.length || !whapiToken) return;
+            // ── Config panel helpers ──────────────────────────────────────
+            var cfgJids = jids.slice(); // working copy, editable in-page
 
-                // Build per-post checkbox rows
+            function cfgRenderList() {
+                var list = document.getElementById('cfg-jid-list');
+                list.innerHTML = '';
+                cfgJids.forEach(function(j, idx) {
+                    var row = document.createElement('div');
+                    row.className = 'jid-item';
+                    var span = document.createElement('span');
+                    span.textContent = '\u2022 ' + j.label + '  \u2014  ' + j.jid;
+                    var delBtn = document.createElement('button');
+                    delBtn.className = 'config-btn del';
+                    delBtn.textContent = '\u00d7';
+                    delBtn.onclick = function() { cfgJids.splice(idx, 1); cfgRenderList(); };
+                    row.appendChild(span);
+                    row.appendChild(delBtn);
+                    list.appendChild(row);
+                });
+            }
+
+            function cfgAddJid() {
+                var labelEl = document.getElementById('cfg-new-label');
+                var jidEl = document.getElementById('cfg-new-jid');
+                var jidVal = jidEl.value.trim();
+                if (!jidVal) return;
+                cfgJids.push({ label: labelEl.value.trim() || jidVal, jid: jidVal, defaultOn: true });
+                labelEl.value = ''; jidEl.value = '';
+                cfgRenderList();
+            }
+
+            function cfgApply() {
+                var tokenEl = document.getElementById('cfg-token');
+                if (tokenEl.value.trim()) whapiToken = tokenEl.value.trim();
+                jids = cfgJids.slice();
+                buildUI();
+                document.getElementById('config-panel').removeAttribute('open');
+            }
+
+            function cfgSave() {
+                cfgApply();
+            }
+
+            // ── Main UI builder (called on load + after Apply) ────────────
+            function buildUI() {
+                var warning = document.getElementById('no-channels-warning');
+                var panel = document.getElementById('config-panel');
+
+                if (!jids.length || !whapiToken) {
+                    if (warning) warning.style.display = 'block';
+                    if (panel) panel.setAttribute('open', '');
+                    // populate config panel with current values
+                    var tokenEl = document.getElementById('cfg-token');
+                    if (tokenEl && whapiToken) tokenEl.value = whapiToken;
+                    cfgRenderList();
+                    return;
+                }
+
+                if (warning) warning.style.display = 'none';
+
+                // Populate config panel with current values for editing
+                var tokenEl = document.getElementById('cfg-token');
+                if (tokenEl) tokenEl.value = whapiToken;
+                cfgRenderList();
+
+                // Rebuild per-post checkbox rows (clear first)
                 waTexts.forEach(function(_, i) {
                     var row = document.getElementById('target-row-' + i);
                     if (!row) return;
+                    row.innerHTML = '';
                     jids.forEach(function(jidObj) {
                         var label = document.createElement('label');
                         var cb = document.createElement('input');
@@ -1287,12 +1391,13 @@ ${waPostsHtml}
                     });
                 });
 
-                // Build bulk send buttons
+                // Rebuild bulk send section
                 var container = document.getElementById('send-all-container');
                 if (!container) return;
+                container.innerHTML = '';
                 var section = document.createElement('div');
                 section.className = 'bulk-section';
-                section.innerHTML = '<h3>\ud83d\ude80 Bulk Send</h3><p style="font-size:12px;color:#555;margin:0 0 10px">Sends to all posts where the channel is checked. Posts are sent 800ms apart.</p>';
+                section.innerHTML = '<h3>\ud83d\ude80 Bulk Send</h3><p style="font-size:12px;color:#555;margin:0 0 10px 0">Sends to all posts where that channel is checked. 800ms between posts.</p>';
                 var bulkRow = document.createElement('div');
                 bulkRow.className = 'bulk-row';
                 jids.forEach(function(jidObj) {
@@ -1304,6 +1409,13 @@ ${waPostsHtml}
                 });
                 section.appendChild(bulkRow);
                 container.appendChild(section);
+            }
+
+            window.addEventListener('DOMContentLoaded', function() {
+                // Pre-populate cfg-new-jid Enter key shortcut
+                var newJidInput = document.getElementById('cfg-new-jid');
+                if (newJidInput) newJidInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') cfgAddJid(); });
+                buildUI();
             });
         </script>
     </div>
