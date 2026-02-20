@@ -445,6 +445,34 @@ class DealBotDaemon:
 
         return self.stats
 
+    def send_daily_summary(self):
+        """
+        Query today's top 3 published deals and send a single summary post
+        to the configured daily-summary WhatsApp group.
+        """
+        from .ui.whatsapp_format import WhatsAppFormatter
+
+        summary_jid = self.config.get("whatsapp", {}).get("recipients", {}).get("daily_summary")
+        if not summary_jid:
+            logger.warning("No daily_summary JID configured — skipping summary")
+            return
+
+        top_deals = self.controller.db.get_top_deals_today(limit=3)
+
+        if not top_deals:
+            logger.info("No published deals in the last 24 h — skipping daily summary")
+            return
+
+        message = WhatsAppFormatter.format_daily_summary(top_deals)
+        logger.info(f"Sending daily summary ({len(top_deals)} deals) to {summary_jid}")
+        self.whapi.send_message(
+            [summary_jid],
+            message,
+            deal_id="daily_summary",
+            image_url=None,
+        )
+        logger.info("Daily summary sent successfully")
+
     def shutdown(self):
         """Clean up resources."""
         logger.info("Shutting down daemon...")

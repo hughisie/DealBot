@@ -1,6 +1,7 @@
 """WhatsApp message formatting."""
 
-from typing import Optional
+from datetime import datetime
+from typing import Any, Optional
 
 from ..models import Currency, ProcessedDeal, Rating
 
@@ -78,6 +79,63 @@ class WhatsAppFormatter:
 
         # Short URL
         lines.append(f"🛒 {deal.short_link.short_url}")
+
+        return "\n".join(lines)
+
+    @staticmethod
+    def format_daily_summary(deals: list[dict[str, Any]]) -> str:
+        """
+        Format the top-3 hottest deals of the day into a single WhatsApp post.
+
+        `deals` is a list of DB row dicts from get_top_deals_today().
+        """
+        medals = ["🥇", "🥈", "🥉"]
+        day_name = datetime.now().strftime("%A, %d %b")  # e.g. "Monday, 17 Feb"
+
+        lines = [
+            "🔥 *TOP 3 CHOLLOS DE HOY* 🔥",
+            f"📅 {day_name}",
+            "━━━━━━━━━━━━━━━━━━",
+        ]
+
+        for i, deal in enumerate(deals[:3]):
+            medal = medals[i]
+            title = (deal.get("title") or "Unknown deal")[:55]
+            if len(deal.get("title") or "") > 55:
+                title += "…"
+
+            currency = deal.get("currency", "EUR")
+            symbol = {"EUR": "€", "GBP": "£", "USD": "$"}.get(currency, "€")
+
+            price = deal.get("adjusted_price")
+            pvp = deal.get("list_price")
+            disc = deal.get("discount_pct")
+            degree = deal.get("degree")
+            short_url = deal.get("short_url", "")
+
+            # Price line
+            if pvp and disc:
+                price_line = (
+                    f"💰 {symbol}{price:.2f} / ~PVP {symbol}{pvp:.2f}~ (-{disc:.0f}%)"
+                )
+            elif price:
+                price_line = f"💰 {symbol}{price:.2f}"
+            else:
+                price_line = "💰 Precio no disponible"
+
+            # Hotness indicator
+            heat = f"🌡 {degree}°" if degree else ""
+
+            lines.append(f"\n{medal} *{title}*")
+            if heat:
+                lines.append(heat)
+            lines.append(price_line)
+            lines.append(f"🛒 {short_url}")
+
+        lines += [
+            "\n━━━━━━━━━━━━━━━━━━",
+            "💎 _DealBot · barna.news_",
+        ]
 
         return "\n".join(lines)
 

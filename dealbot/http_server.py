@@ -98,6 +98,34 @@ class DealBotHTTPHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(f'Error: {str(e)}'.encode())
 
+        elif self.path == '/daily-summary':
+            # Send top-3 hottest deals of the day to the summary group
+            logger.info("Received HTTP trigger for daily summary")
+            try:
+                db_path = Path.home() / "Library" / "Application Support" / "DealBot" / "dealbot.db"
+
+                # Download latest DB so we have today's published deals
+                if self.gcs_storage:
+                    try:
+                        db_path.parent.mkdir(parents=True, exist_ok=True)
+                        self.gcs_storage.download_file("dealbot.db", db_path)
+                    except Exception as e:
+                        logger.warning(f"Could not download DB for summary: {e}")
+
+                self.daemon.send_daily_summary()
+
+                self.send_response(200)
+                self.send_header('Content-type', 'text/plain')
+                self.end_headers()
+                self.wfile.write(b'Daily summary sent')
+
+            except Exception as e:
+                logger.error(f"Error sending daily summary: {e}", exc_info=True)
+                self.send_response(500)
+                self.send_header('Content-type', 'text/plain')
+                self.end_headers()
+                self.wfile.write(f'Error: {str(e)}'.encode())
+
         elif self.path == '/health':
             # Health check endpoint
             self.send_response(200)

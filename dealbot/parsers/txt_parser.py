@@ -93,6 +93,10 @@ class TxtParser:
         asin_match = self.ASIN_PATTERN.search(url)
         asin = asin_match.group(1) if asin_match else None
 
+        # Extract Chollometro degree/temperature score (e.g. "🎯 #1 - 906°")
+        degree_match = re.search(r'#\d+\s*-\s*(\d+)°', block)
+        degree = int(degree_match.group(1)) if degree_match else None
+
         # Extract price - look specifically for Precio/Price line first
         stated_price: Optional[float] = None
         source_pvp: Optional[float] = None
@@ -215,6 +219,7 @@ class TxtParser:
             source_discount_pct=source_discount_pct,
             currency=currency,
             language_flag=language_flag,
+            degree=degree,
         )
 
         logger.debug(f"Parsed deal: {deal.title[:50]}...")

@@ -11,9 +11,10 @@ affiliates:
 
 whatsapp:
   recipients:
-    channel: "120363423087007307@newsletter"  # Your WhatsApp Channel ✅
-    group: "120363269876975950@g.us"          # Your WhatsApp Group (backup)
-    status: "447740359454@s.whatsapp.net"     # Personal number for status updates
+    channel: "120363423087007307@newsletter"           # WhatsApp Channel
+    group: "120363269876975950@g.us"                   # WhatsApp Group (backup)
+    status: "447740359454@s.whatsapp.net"              # Personal number for status updates
+    daily_summary: "120363426062800154@g.us"           # Daily top-3 hottest deals group
   send_to_group: false  # false = channel, true = group
 
 shortlinks:

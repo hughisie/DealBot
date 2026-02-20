@@ -41,6 +41,7 @@ class Deal(BaseModel):
     notes: Optional[str] = None
     status: DealStatus = DealStatus.PARSED
     language_flag: Optional[str] = None  # ES/EN
+    degree: Optional[int] = None  # Chollometro hotness score (e.g. 906)
 
 
 class PriceInfo(BaseModel):

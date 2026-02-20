@@ -42,6 +42,9 @@ class Database:
                 src_url TEXT,
                 validated_price REAL,
                 adjusted_price REAL,
+                list_price REAL,
+                discount_pct REAL,
+                degree INTEGER,
                 currency TEXT,
                 rating REAL,
                 rating_count INTEGER,
@@ -52,6 +55,13 @@ class Database:
                 status TEXT
             )
         """)
+
+        # Add new columns to existing DBs that pre-date this schema
+        for col, col_type in [("list_price", "REAL"), ("discount_pct", "REAL"), ("degree", "INTEGER")]:
+            try:
+                cursor.execute(f"ALTER TABLE deals ADD COLUMN {col} {col_type}")
+            except sqlite3.OperationalError:
+                pass  # Column already exists
 
         # Destinations table (many-to-many with deals)
         cursor.execute("""
@@ -94,13 +104,18 @@ class Database:
         rating = deal.rating.value if deal.rating else None
         rating_count = deal.rating.count if deal.rating else None
 
+        # Determine best available discount/PVP from either PA-API or source file
+        list_price = deal.price_info.list_price or deal.deal.source_pvp
+        discount_pct = deal.price_info.savings_percentage or deal.deal.source_discount_pct
+
         cursor.execute(
             """
             INSERT OR REPLACE INTO deals (
                 deal_id, asin, title, src_url, validated_price, adjusted_price,
+                list_price, discount_pct, degree,
                 currency, rating, rating_count, short_url, provider,
                 created_at, published_at, status
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
             (
                 deal.deal.deal_id,
@@ -109,6 +124,9 @@ class Database:
                 deal.deal.url,
                 deal.price_info.current_price,
                 deal.adjusted_price,
+                list_price,
+                discount_pct,
+                deal.deal.degree,
                 deal.price_info.currency.value,
                 rating,
                 rating_count,
@@ -195,6 +213,27 @@ class Database:
         
         row = cursor.fetchone()
         return dict(row) if row else None
+
+    def get_top_deals_today(self, limit: int = 3) -> list[dict[str, Any]]:
+        """
+        Return today's top published deals sorted by hotness.
+        Primary sort: degree (Chollometro temperature) descending.
+        Secondary sort: discount_pct descending.
+        """
+        cursor = self.conn.cursor()
+        cursor.execute(
+            """
+            SELECT * FROM deals
+            WHERE status = 'published'
+              AND datetime(published_at) > datetime('now', '-24 hours')
+            ORDER BY
+                COALESCE(degree, 0) DESC,
+                COALESCE(discount_pct, 0) DESC
+            LIMIT ?
+            """,
+            (limit,),
+        )
+        return [dict(row) for row in cursor.fetchall()]
 
     def export_to_csv(self, output_path: str | Path) -> None:
         """Export deals to CSV file."""
